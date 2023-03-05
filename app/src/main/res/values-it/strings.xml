@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_settings">Opzioni</string>
+    <string name="start">Inizio</string>
+    <string name="lap">Giro</string>
+    <string name="app_name">Cronometro</string>
+</resources>
