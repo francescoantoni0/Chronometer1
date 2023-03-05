@@ -5,39 +5,65 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
+    android:padding="@dimen/activity_vertical_margin"
     tools:context=".MainActivity">
 
+    <!-- Chronometer value -->
     <TextView
         android:id="@+id/counterView"
-        android:layout_width="182dp"
-        android:layout_height="33dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/activity_vertical_margin"
         android:text="@string/base_value"
-        android:visibility="visible" />
+        android:textSize="@dimen/big_text_size" />
 
+    <!-- Container for buttons -->
     <LinearLayout
         android:id="@+id/buttons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_below="@+id/counterView"
+        android:layout_below="@id/counterView"
         android:layout_centerHorizontal="true"
-        >
+        android:gravity="center">
+
+        <!-- Start/Stop button -->
         <Button
             android:id="@+id/start_pause"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
             android:text="@string/start"
-            >
-
-        </Button>
+            android:textSize="@dimen/medium_text_size" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/lap_reset"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/lap" />
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:text="@string/lap"
+            android:textSize="@dimen/medium_text_size" />
     </LinearLayout>
+
+    <!-- Last recorded lap -->
+    <TextView
+        android:id="@+id/last_lap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/buttons"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:gravity="center"
+        android:textSize="@dimen/medium_text_size"
+        android:text="@string/last_lap_base" />
+
+    <Button
+        android:id="@+id/view_laps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/last_lap"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:text="@string/see_laps" />
+
 </RelativeLayout>

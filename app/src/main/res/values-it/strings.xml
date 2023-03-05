@@ -4,4 +4,9 @@
     <string name="start">Inizio</string>
     <string name="lap">Giro</string>
     <string name="app_name">Cronometro</string>
+    <string name="last_lap_base">Ultimo giro</string>
+    <string name="see_laps">Vedi giri</string>
+    <string name="pause">Pausa</string>
+    <string name="stop">Stop</string>
+    <string name="reset">Reset</string>
 </resources>
