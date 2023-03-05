@@ -4,8 +4,12 @@ import android.annotation.SuppressLint;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Stack;
 import java.util.Date;
 
@@ -15,22 +19,23 @@ public class ChronometerData {
     public static final int CHRONOMETER_STATE_PAUSED = 2;
     public static final int CHRONOMETER_STATE_RUNNING = 3;
 
-    @SuppressLint("SimpleDateFormat")
-    public static DateFormat dateFormatter = new SimpleDateFormat("HH:mm:ss.SS");
+    public static DateFormat dateFormatter = new SimpleDateFormat("HH:mm:ss.SS", Locale.getDefault());
 
-    public static String format(Date d) {
-        return dateFormatter.format(d);
+    public LocalDateTime getLastStartTime1() {
+        return lastStartTime1;
     }
 
     private int status;
-    private ArrayList<Date> laps;
+    private ArrayList<LocalDateTime> laps;
     private Date lastStartTime;
+
+    private LocalDateTime lastStartTime1;
     private long offset;
 
     public void reset() {
         status = CHRONOMETER_STATE_RESET;
         laps = new ArrayList<>();
-        lastStartTime = null;
+        lastStartTime1 = null;
         offset = 0L;
     }
 
@@ -47,7 +52,7 @@ public class ChronometerData {
             throw new RuntimeException("Chronometer already running");
         if (status == CHRONOMETER_STATE_STOPPED)
             reset();
-        lastStartTime = new Date();
+        lastStartTime1 = LocalDateTime.now();
         status = CHRONOMETER_STATE_RUNNING;
     }
 
@@ -55,23 +60,24 @@ public class ChronometerData {
         if (status <= CHRONOMETER_STATE_STOPPED)
             throw new RuntimeException("Chronometer already stopped");
         status = CHRONOMETER_STATE_STOPPED;
-        offset = getValue().getTime();
+        offset = Instant.from(getValue()).toEpochMilli();
     }
 
     public void pause() {
         if (status != CHRONOMETER_STATE_RUNNING)
             throw new RuntimeException("Chronometer not running");
-        offset = getValue().getTime();
+        offset = Instant.from(getValue()).toEpochMilli();
         status = CHRONOMETER_STATE_PAUSED;
     }
 
-    public Date getValue() {
+    public LocalDateTime getValue() {
         if (status != CHRONOMETER_STATE_RUNNING)
-            return new Date(offset);
-        Date curTime = new Date();
-        long value = curTime.getTime() - lastStartTime.getTime();
+            return Instant.ofEpochMilli(offset).atZone(ZoneId.systemDefault()).toLocalDateTime();
+        LocalDateTime curTime = LocalDateTime.now();
+        long value = Instant.from(curTime).toEpochMilli() -
+                Instant.from(lastStartTime1).toEpochMilli();
         value += offset;
-        return new Date(value);
+        return Instant.ofEpochMilli(offset).atZone(ZoneId.systemDefault()).toLocalDateTime();
     }
 
     public String getFormattedValue() {
@@ -88,9 +94,9 @@ public class ChronometerData {
         return laps.size() > 0;
     }
 
-    public Date getLastLapTime() {
+    public LocalDateTime getLastLapTime() {
         if (!hasLaps())
-            return new Date(0);
+            return Instant.ofEpochMilli(0).atZone(ZoneId.systemDefault()).toLocalDateTime();
         return laps.get(laps.size() - 1);
     }
 }

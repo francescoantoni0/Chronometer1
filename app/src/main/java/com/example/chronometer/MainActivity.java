@@ -1,5 +1,6 @@
 package com.example.chronometer;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -21,6 +22,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
+
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -58,8 +62,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             viewLaps.setVisibility(View.INVISIBLE);
             return;
         }
-        String lastLapTime = ChronometerData.format(chronometer.getLastLapTime());
-        lastLapAbsolute.setText(getString(R.string.last_lap_base) + " " + lastLapTime);
+        String lastLapTime = chronometer.getLastStartTime1().format(DateTimeFormatter.ofPattern("HH:mm:ss.SS"));
+        lastLapAbsolute.setText(String.format("%s %s", getString(R.string.last_lap_base), lastLapTime));
         lastLapAbsolute.setVisibility(View.VISIBLE);
         viewLaps.setVisibility(View.VISIBLE);
     }
