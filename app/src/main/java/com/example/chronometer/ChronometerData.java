@@ -74,7 +74,7 @@ public class ChronometerData {
         return new Date(value);
     }
 
-    private String getFormattedValue() {
+    public String getFormattedValue() {
         return dateFormatter.format(getValue());
     }
 
