@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             viewLaps.setVisibility(View.INVISIBLE);
             return;
         }
-        String lastLapTime = chronometer.getLastStartTime1().format(DateTimeFormatter.ofPattern("HH:mm:ss.SS"));
+        String lastLapTime = chronometer.getFormattedValue();
         lastLapAbsolute.setText(String.format("%s %s", getString(R.string.last_lap_base), lastLapTime));
         lastLapAbsolute.setVisibility(View.VISIBLE);
         viewLaps.setVisibility(View.VISIBLE);

@@ -7,7 +7,9 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
@@ -20,23 +22,23 @@ public class ChronometerData {
     public static final int CHRONOMETER_STATE_PAUSED = 2;
     public static final int CHRONOMETER_STATE_RUNNING = 3;
 
-    //public static DateFormat dateFormatter = new SimpleDateFormat("HH:mm:ss.SS", Locale.getDefault());
+    public static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("HH:mm:ss.SS");
 
-    public LocalDateTime getLastStartTime1() {
+    public ZonedDateTime getLastStartTime1() {
         return lastStartTime1;
     }
 
     private int status;
-    private ArrayList<LocalDateTime> laps;
+    private ArrayList<ZonedDateTime> laps;
     private Date lastStartTime;
 
-    private LocalDateTime lastStartTime1;
+    private ZonedDateTime lastStartTime1;
     private long offset;
 
     public void reset() {
         status = CHRONOMETER_STATE_RESET;
         laps = new ArrayList<>();
-        lastStartTime1 = LocalDateTime.ofInstant(Instant.ofEpochMilli(0), ZoneId.systemDefault());
+        lastStartTime1 = Instant.EPOCH.atZone(ZoneId.systemDefault());
         offset = 0L;
     }
 
@@ -53,7 +55,7 @@ public class ChronometerData {
             throw new RuntimeException("Chronometer already running");
         if (status == CHRONOMETER_STATE_STOPPED)
             reset();
-        lastStartTime1 = LocalDateTime.now();
+        lastStartTime1 = ZonedDateTime.now();
         status = CHRONOMETER_STATE_RUNNING;
     }
 
@@ -71,18 +73,17 @@ public class ChronometerData {
         status = CHRONOMETER_STATE_PAUSED;
     }
 
-    public LocalDateTime getValue() {
+    public ZonedDateTime getValue() {
         if (status != CHRONOMETER_STATE_RUNNING)
-            return Instant.ofEpochMilli(offset).atZone(ZoneId.systemDefault()).toLocalDateTime();
-        LocalDateTime curTime = LocalDateTime.now();
-        long value = Instant.from(curTime).toEpochMilli() -
-                Instant.from(lastStartTime1).toEpochMilli();
+            return Instant.ofEpochMilli(offset).atZone(ZoneId.systemDefault());
+        ZonedDateTime curTime = ZonedDateTime.now();
+        long value = curTime.toInstant().toEpochMilli() - lastStartTime1.toInstant().toEpochMilli();
         value += offset;
-        return Instant.ofEpochMilli(offset).atZone(ZoneId.systemDefault()).toLocalDateTime();
+        return Instant.ofEpochMilli(value).atZone(ZoneId.systemDefault());
     }
 
     public String getFormattedValue() {
-        return lastStartTime1.format(DateTimeFormatter.ofPattern("HH:mm:ss.SS"));
+        return dateFormatter.format();
     }
 
     public void addLap() {
@@ -92,12 +93,12 @@ public class ChronometerData {
     }
 
     public boolean hasLaps() {
-        return laps.size() > 0;
+        return (laps.size() > 0);
     }
 
-    public LocalDateTime getLastLapTime() {
+    public ZonedDateTime getLastLapTime() {
         if (!hasLaps())
-            return Instant.ofEpochMilli(0).atZone(ZoneId.systemDefault()).toLocalDateTime();
+            return Instant.EPOCH.atZone(ZoneId.systemDefault());
         return laps.get(laps.size() - 1);
     }
 }
