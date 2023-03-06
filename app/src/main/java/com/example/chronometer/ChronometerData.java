@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
@@ -19,7 +20,7 @@ public class ChronometerData {
     public static final int CHRONOMETER_STATE_PAUSED = 2;
     public static final int CHRONOMETER_STATE_RUNNING = 3;
 
-    public static DateFormat dateFormatter = new SimpleDateFormat("HH:mm:ss.SS", Locale.getDefault());
+    //public static DateFormat dateFormatter = new SimpleDateFormat("HH:mm:ss.SS", Locale.getDefault());
 
     public LocalDateTime getLastStartTime1() {
         return lastStartTime1;
@@ -35,7 +36,7 @@ public class ChronometerData {
     public void reset() {
         status = CHRONOMETER_STATE_RESET;
         laps = new ArrayList<>();
-        lastStartTime1 = null;
+        lastStartTime1 = LocalDateTime.ofInstant(Instant.ofEpochMilli(0), ZoneId.systemDefault());
         offset = 0L;
     }
 
@@ -81,7 +82,7 @@ public class ChronometerData {
     }
 
     public String getFormattedValue() {
-        return dateFormatter.format(getValue());
+        return lastStartTime1.format(DateTimeFormatter.ofPattern("HH:mm:ss.SS"));
     }
 
     public void addLap() {
