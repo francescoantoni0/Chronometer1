@@ -8,7 +8,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-@SuppressWarnings({"unused", "inverted"})
+@SuppressWarnings("unused")
 public class ChronometerData {
     public static final int CHRONOMETER_STATE_RESET = 0;
     public static final int CHRONOMETER_STATE_STOPPED = 1;
