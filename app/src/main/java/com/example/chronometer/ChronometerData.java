@@ -83,7 +83,7 @@ public class ChronometerData {
     }
 
     public String getFormattedValue() {
-        return dateFormatter.format();
+        return dateFormatter.format(getValue());
     }
 
     public void addLap() {
