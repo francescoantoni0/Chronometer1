@@ -1,30 +1,12 @@
 package com.example.chronometer;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
-
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Handler;
 import android.view.View;
-
-import androidx.core.view.WindowCompat;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
-import com.example.chronometer.databinding.ActivityMainBinding;
-
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -132,11 +114,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         chronometer = new ChronometerData();
 
-        counter = (TextView) findViewById(R.id.counterView);
-        lastLapAbsolute = (TextView) findViewById(R.id.last_lap);
-        startPause = (Button) findViewById(R.id.start_pause);
-        lapReset = (Button) findViewById(R.id.lap_reset);
-        viewLaps = (Button) findViewById(R.id.view_laps);
+        counter = findViewById(R.id.counterView);
+        lastLapAbsolute = findViewById(R.id.last_lap);
+        startPause = findViewById(R.id.start_pause);
+        lapReset = findViewById(R.id.lap_reset);
+        viewLaps = findViewById(R.id.view_laps);
 
         counter.setText(R.string.base_value);
         startPause.setOnClickListener(this);
